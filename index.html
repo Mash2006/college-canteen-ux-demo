@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Canteen - UX Surgery 2026 Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 { font-size: 24px; margin-bottom: 5px; }
+        .header p { font-size: 14px; opacity: 0.9; }
+        .hero-banner {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        .hero-banner h2 { font-size: 20px; margin-bottom: 10px; }
+        .hero-banner .price { font-size: 28px; font-weight: bold; }
+        .hero-banner .old-price {
+            text-decoration: line-through;
+            opacity: 0.7;
+            font-size: 18px;
+        }
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 2px solid #ddd;
+        }
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .tab:hover { background: #e0e0e0; }
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+        .search-bar { padding: 15px; background: white; }
+        .search-bar input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border 0.3s;
+        }
+        .search-bar input:focus { border-color: #667eea; }
+        .menu-items {
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .menu-item {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+        }
+        .item-details { flex: 1; }
+        .item-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .item-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .badge-veg { background: #4CAF50; color: white; }
+        .badge-nonveg { background: #f44336; color: white; }
+        .item-price {
+            font-size: 22px;
+            color: #667eea;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .add-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .add-btn:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+        }
+        .cart-footer {
+            background: #f9f9f9;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #ddd;
+        }
+        .cart-info { font-size: 18px; font-weight: bold; }
+        .checkout-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .checkout-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .demo-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #f5576c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-badge">UX Surgery 2026 Demo</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ College Canteen</h1>
+            <p>Order food, skip the queue!</p>
+        </div>
+        
+        <div class="hero-banner">
+            <h2>🔥 Today's Special!</h2>
+            <div class="price">₹120 <span class="old-price">₹150</span></div>
+            <p>Hyderabadi Biryani + Raita</p>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="changeTab(this, 'breakfast')">🍳 Breakfast</div>
+            <div class="tab" onclick="changeTab(this, 'lunch')">🍛 Lunch</div>
+            <div class="tab" onclick="changeTab(this, 'snacks')">🍕 Snacks</div>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="🔍 Search your favorite food..." oninput="searchFood(this.value)">
+        </div>
+        
+        <div class="menu-items" id="menuItems">
+            <div class="menu-item" data-category="breakfast">
+                <div class="item-image">🥪</div>
+                <div class="item-details">
+                    <div class="item-name">Veg Sandwich</div>
+                    <span class="item-badge badge-veg">VEG</span>
+                    <div class="item-price">₹40</div>
+                </div>
+                <button class="add-btn" onclick="addToCart('Veg Sandwich', 40)">Add +</button>
+            </div>
+            
+            <div class="menu-item" data-category="breakfast">
+                <div class="item-image">☕</div>
+                <div class="item-details">
+                    <div class="item-name">Coffee</div>
+                    <span class="item-badge badge-veg">VEG</span>
+                    <div class="item-price">₹20</div>
+                </div>
+                <button class="add-btn" onclick="addToCart('Coffee', 20)">Add +</button>
+            </div>
+            <div class="menu-item" data-category="lunch"><div class="item-image">🍛</div><div class="item-details"><div class="item-name">Biryani Special</div><span class="item-badge badge-nonveg">NON-VEG</span><div class="item-price">₹120</div></div><button class="add-btn" onclick="addToCart('Biryani', 120)">Add +</button></div>
+            <div class="menu-item" data-category="lunch"><div class="item-image">🍚</div><div class="item-details"><div class="item-name">Curd Rice</div><span class="item-badge badge-veg">VEG</span><div class="item-price">₹60</div></div><button class="add-btn" onclick="addToCart('Curd Rice', 60)">Add +</button></div>
+            <div class="menu-item" data-category="snacks"><div class="item-image">🍕</div><div class="item-details"><div class="item-name">Pizza Slice</div><span class="item-badge badge-veg">VEG</span><div class="item-price">₹80</div></div><button class="add-btn" onclick="addToCart('Pizza', 80)">Add +</button></div>
+            <div class="menu-item" data-category="snacks"><div class="item-image">🍟</div><div class="item-details"><div class="item-name">French Fries</div><span class="item-badge badge-veg">VEG</span><div class="item-price">₹50</div></div><button class="add-btn" onclick="addToCart('Fries', 50)">Add +</button></div>
+        </div>
+        <div class="cart-footer"><div class="cart-info"><div>🛒 Cart: ₹<span id="cartTotal">0</span></div><div style="font-size: 12px; color: #666;">⏱️ Ready in 15 min</div></div><button class="checkout-btn" onclick="checkout()">Checkout</button></div>
+    </div>
+    <script>
+let cartTotal = 0;
+let cartItems = [];
+function changeTab(element, category) {
+document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+element.classList.add('active');
+document.querySelectorAll('.menu-item').forEach(item => {
+if (item.dataset.category === category) { item.style.display = 'flex'; } else { item.style.display = 'none'; }
+});
+}
+function searchFood(query) {
+const items = document.querySelectorAll('.menu-item');
+items.forEach(item => {
+const name = item.querySelector('.item-name').textContent.toLowerCase();
+if (name.includes(query.toLowerCase())) { item.style.display = 'flex'; } else { item.style.display = 'none'; }
+});
+}
+function addToCart(itemName, price) {
+cartTotal += price;
+cartItems.push(itemName);
+document.getElementById('cartTotal').textContent = cartTotal;
+const btn = event.target;
+btn.textContent = 'Added ✓';
+btn.style.background = '#4CAF50';
+setTimeout(() => { btn.textContent = 'Add +'; btn.style.background = '#667eea'; }, 1000);
+}
+function checkout() {
+if (cartTotal === 0) { alert('Your cart is empty! Add some items first.'); return; }
+alert(`Order Confirmed! 🎉\n\nTotal: ₹${cartTotal}\nItems: ${cartItems.join(', ')}\n\nEstimated pickup: 15 minutes\nOrder #${Math.floor(Math.random() * 9000) + 1000}`);
+cartTotal = 0;
+cartItems = [];
+document.getElementById('cartTotal').textContent = '0';
+}
+changeTab(document.querySelector('.tab.active'), 'breakfast');
+</script>
+</body>
+</html>
